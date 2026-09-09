@@ -45,31 +45,37 @@ directly from S3.
 
 ## Architecture
 
-```
-   MCP client (Claude / Cursor / …)
-        │  Streamable HTTP (JSON over POST /mcp)
-        ▼
-   ┌──────────────────────────────────────────────┐
-   │  AWS HTTP API Gateway  (the only front door) │  throttling · access logs
-   └──────────────────────────────────────────────┘
-        │  AWS_PROXY
-        ▼
-   ┌────────────────────────────────────────────────┐
-   │  Lambda   (arm64, Python 3.13)                 │
-   │                                                │
-   │  Mangum ─► Starlette ASGI (app.py)             │
-   │    ├─ Auth0Middleware ............ auth.py     │  validate bearer, gate on
-   │    │                                           │  subscription + verified email
-   │    ├─ OAuth proxy routes ......... oauth_proxy │  /register /authorize
-   │    │    (this server IS the AS)                │  /callback /token /jwks
-   │    ├─ MCP tool surface ........... server.py   │  browse/preview/aggregate/…
-   │    └─ /static branding ........... app.py      │  landing-page assets
-   └────────────────────────────────────────────────┘
-        │                 │                    │
-        ▼                 ▼                    ▼
-   Auth0 tenant     Portal MySQL (RDS)     S3 backup buckets
-   (login, MFA,     entitlements.py        storage.py
-    federation)     subscription + orgs    Xero + QBO, per-region
+```mermaid
+flowchart TB
+    client["MCP client<br/>Claude · Cursor · ChatGPT · Gemini"]
+    gw["AWS HTTP API Gateway<br/>the only front door · throttling · access logs"]
+
+    subgraph lambda["AWS Lambda — arm64 · Python 3.13 · stateless"]
+        direction TB
+        asgi["Mangum → Starlette ASGI · app.py"]
+        auth["Auth resource server · auth.py<br/>validate bearer · gate on subscription + verified email"]
+        oauth["OAuth proxy · oauth_proxy.py<br/>this server IS the authorization server<br/>/register /authorize /callback /token /jwks"]
+        tools["MCP tool surface · server.py + tools/<br/>browse · preview · aggregate · compare · …"]
+        static["/static branding · app.py"]
+        asgi --> auth
+        asgi --> oauth
+        asgi --> tools
+        asgi --> static
+    end
+
+    auth0["Auth0 tenant<br/>login · MFA · federation"]
+    db[("Portal MySQL — RDS<br/>entitlements.py · subscription + orgs")]
+    s3[("S3 backup buckets<br/>storage.py · Xero + QBO · per region")]
+
+    client -->|"Streamable HTTP · POST /mcp"| gw
+    gw -->|AWS_PROXY| asgi
+    oauth -.->|federated login| auth0
+    auth -->|verify entitlement| db
+    tools -->|resolve orgs| db
+    tools -->|read backups| s3
+
+    classDef ext fill:#eef1ff,stroke:#3b57e0,stroke-width:1px,color:#14163a;
+    class auth0,db,s3 ext;
 ```
 
 Key properties:
