@@ -26,7 +26,6 @@ directly from S3.
 - [Deployment](#deployment)
 - [Connecting a client](#connecting-a-client)
 - [Security model](#security-model)
-- [Known gaps & roadmap](#known-gaps--roadmap)
 
 ---
 
@@ -256,16 +255,6 @@ version, not by editing every customer's config.
 - **Gate before work.** No tool runs without an active subscription and a verified
   email; the check runs before any handler executes.
 - **One front door.** API Gateway only; Function URLs are removed on deploy.
-
-## Known gaps & roadmap
-
-- **Client icon rendering** — the server advertises its brand icon per spec, but
-  custom-connector icon rendering is still a client-side gap; the `.mcpb` route
-  shows it today.
-- **Live Xero** (`xero_live.py`) — built against staging; blocked on Xero app
-  credentials and a DB write-back for rotated refresh tokens before production.
-- **Secret hygiene** — move `MYSQL_PASSWORD` and the signing key from Lambda env
-  into a secrets manager; rotate anything ever exposed.
 
 ---
 
