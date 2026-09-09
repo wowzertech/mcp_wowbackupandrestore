@@ -141,7 +141,7 @@ docs/              Customer-facing connection guide (INSTALL.md).
 | `_reports.py` | The report flattener (below): turns Xero/QuickBooks statement and general-ledger structures into flat rows at load time. |
 | `settings.py` | Pydantic settings — everything from the environment, nothing baked in. Per-country buckets and regions, multi-DB list, feature flags. |
 | `ratelimit.py` | Per-caller token-bucket rate limiting (each instance carries its own buckets). |
-| `xero_live.py` | Optional live Xero read path (refresh at identity.xero.com, call api.xero.com). Feature-flagged; see roadmap. |
+| `xero_live.py` | Optional live Xero read path (refresh at identity.xero.com, call api.xero.com). Feature-flagged and off unless configured. |
 
 ## The tools clients see
 
