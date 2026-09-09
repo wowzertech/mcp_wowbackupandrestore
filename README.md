@@ -121,11 +121,8 @@ npm/               @wow-aisuite/mcp-server — the stdio↔remote launcher clien
                    put in their config. Bridges to the remote endpoint.
 mcpb/              Claude Desktop Extension (.mcpb) — one-click, branded install
                    that wraps the npm launcher. Built by build_mcpb.sh.
-branding/assets/   Image assets served from /static (the landing-page swirl and
-                   the brand logos).
+branding/assets/   The landing-page swirl mark, served from /static.
 docs/              Customer-facing connection guide (INSTALL.md).
-tests/             Unit tests: the entitlement gate, path isolation, the backup
-                   window, and the reader / report-flattener behaviour.
 .env.example       Every setting, documented. Copy to .env for local runs.
 ```
 
@@ -216,9 +213,6 @@ cp .env.example .env                  # then fill in real values (never commit .
 
 # run the server locally (uvicorn, hot reload)
 python -m s3_mcp.app                  # serves on http://localhost:8000
-
-# tests
-pytest tests/
 ```
 
 ## Deployment
@@ -257,10 +251,10 @@ version, not by editing every customer's config.
 - **Least privilege.** The Lambda role can only *read* the named backup buckets.
   Auth0 Management scopes are cut to exactly what the server uses.
 - **Tenant isolation is structural.** The user segment of every S3 path is taken
-  from the verified token — never an argument — and is covered by
-  `tests/test_path_isolation.py`.
-- **Gate before work.** `tests/test_entitlement_gate.py` guards the rule that no
-  tool runs without an active subscription and a verified email.
+  from the verified token — never a tool argument — so one subscriber can never
+  read another's data.
+- **Gate before work.** No tool runs without an active subscription and a verified
+  email; the check runs before any handler executes.
 - **One front door.** API Gateway only; Function URLs are removed on deploy.
 
 ## Known gaps & roadmap
