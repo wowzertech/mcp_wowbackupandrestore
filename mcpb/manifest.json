@@ -1,0 +1,46 @@
+{
+  "manifest_version": "0.3",
+  "name": "wow-aisuite",
+  "display_name": "WOW AISuite",
+  "version": "1.0.1",
+  "description": "Analyse your Xero and QuickBooks backups from Claude — powered by WOW Backup & Restore.",
+  "long_description": "WOW AISuite connects Claude to your **WOW Backup & Restore** account so you can explore your Xero and QuickBooks backups in plain language: browse organisations and their dated backups, preview and describe files, aggregate figures, and compare two backups.\n\nThe server is remote and OAuth-protected — the first time a tool runs, you sign in through your browser. Nothing secret is stored in this extension.\n\nRequires an active WOW Backup & Restore subscription.",
+  "author": {
+    "name": "WOW Backup & Restore Ltd",
+    "url": "https://wowbackupandrestore.com"
+  },
+  "homepage": "https://wowbackupandrestore.com",
+  "documentation": "https://wowbackupandrestore.com/docs/mcp",
+  "support": "https://wowbackupandrestore.com/docs/mcp",
+  "icon": "icon.png",
+  "icons": [
+    { "src": "icon.png", "size": "512x512" }
+  ],
+  "license": "MIT",
+  "keywords": ["xero", "quickbooks", "backup", "accounting", "wow", "mcp"],
+  "server": {
+    "type": "node",
+    "entry_point": "server/bin/cli.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/server/bin/cli.js"]
+    }
+  },
+  "tools_generated": false,
+  "tools": [
+    { "name": "browse", "description": "Drill into the organisations you can access, their dated backups, and the files inside one backup." },
+    { "name": "preview_file", "description": "Preview a backup file: its columns and types, and a page of rows." },
+    { "name": "aggregate_file", "description": "Aggregate figures within a backup file, or sweep the same figure across organisations." },
+    { "name": "find_uncategorized_balances", "description": "The net balance sitting in uncategorised / catch-all accounts." },
+    { "name": "compare_file_versions", "description": "What changed in a file between two backup dates." },
+    { "name": "get_live_data", "description": "Read an organisation live from its accounting platform (Xero), when enabled." },
+    { "name": "logout", "description": "Sign out and revoke the current session." }
+  ],
+  "compatibility": {
+    "claude_desktop": ">=0.10.0",
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": {
+      "node": ">=18.0.0"
+    }
+  }
+}

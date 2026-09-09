@@ -1,0 +1,33 @@
+{
+  "name": "@wow-aisuite/mcp-server",
+  "version": "1.0.2",
+  "description": "WOW AISuite — analyse your Xero and QuickBooks backups from Claude, Cursor and other MCP clients",
+  "license": "MIT",
+  "author": "WOW Backup & Restore Ltd",
+  "homepage": "https://wowbackupandrestore.com",
+  "bin": {
+    "wow-aisuite-mcp": "bin/cli.js"
+  },
+  "files": [
+    "bin",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "mcp-remote": "^0.1.38"
+  },
+  "keywords": [
+    "mcp",
+    "modelcontextprotocol",
+    "xero",
+    "backup",
+    "claude",
+    "wow-aisuite"
+  ]
+}

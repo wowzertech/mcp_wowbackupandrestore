@@ -1,0 +1,47 @@
+# --- Secrets (NEVER commit) ---------------------------------------------------
+# Real configuration lives only in the environment / AWS. Use .env.example as the
+# template. .env and .env.portal hold live credentials and must stay untracked.
+.env
+.env.*
+!.env.example
+
+# --- Python -------------------------------------------------------------------
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+build/
+dist/
+
+# --- Node (npm launcher + mcpb bundle deps) -----------------------------------
+node_modules/
+
+# --- Build artifacts ----------------------------------------------------------
+# The Lambda zip and the packed desktop extension are produced by the build
+# scripts; they are outputs, not source.
+mcpb/dist/
+*.mcpb
+/tmp/*.zip
+
+# --- Operational snapshots (not source) ---------------------------------------
+# Auth0 / portal tenant exports taken during operations. They can carry tenant
+# configuration and are portal-sensitive — keep them out of the source repo.
+branding/backup/
+
+# --- Local working artifacts --------------------------------------------------
+# Screenshots and scratch captures produced while iterating on the login pages.
+/*.png
+/*.jpg
+.playwright-mcp/
+scratchpad/
+
+# --- OS / editor --------------------------------------------------------------
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
