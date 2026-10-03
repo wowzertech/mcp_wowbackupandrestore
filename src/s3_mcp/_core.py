@@ -66,8 +66,9 @@ def _server_icons() -> list[Icon]:
 # server changed under it — behaviour used to shift mid-session with no
 # client-visible signal. The tail lists the last few notable changes so "what
 # moved" is answerable without a tool.
-SERVER_VERSION = "v1.1.17"
+SERVER_VERSION = "v1.1.18"
 SERVER_CHANGELOG = [
+    "organisation names with an apostrophe (e.g. Locanda dell'Orso) now resolve, not rejected",
     "landing page links the public source repo on GitHub",
     "landing page adds ChatGPT and Gemini setup, with a visible client-picker scrollbar",
     "docs: read a report's own summary row for stated totals, not a re-sum (avoids over-broad section filters)",

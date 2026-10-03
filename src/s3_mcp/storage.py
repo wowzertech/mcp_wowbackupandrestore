@@ -213,7 +213,7 @@ class UserStore:
             "abcdefghijklmnopqrstuvwxyz"
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
             "0123456789"
-            " ._-()&@+"
+            " ._-()&@+'"  # apostrophe: real business names (Locanda dell'Orso, O'Brien)
         )
         if not set(cleaned) <= allowed:
             bad = "".join(sorted(set(cleaned) - allowed))
